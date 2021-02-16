@@ -40,13 +40,14 @@ jobs:
     - name: 准备结束
       uses: actions/checkout@main
 
-#    - name: 开始下载
-#      run: |
-#        wget $REPO_URL | tar -czf ${{ github.workspace }}/All.tar.gz ${{ github.workspace }}
+    - name: 开始下载
+      run: |
+        wget $REPO_URL
+        tar -czf ${{ github.workspace }}/All.tar.gz ${{ github.workspace }}/ubuntu-18.04.5-live-server-amd64.iso
         
    
     - name: 上传固件到奶牛快传
       run: |
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress $REPO_URL 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ${{ github.workspace }}/All.tar.gz 2>&1 | tee cowtransfer.log
         echo "::warning file=↓↓无需注册直接下载↓↓奶牛快传下载地址↓↓::$(cat cowtransfer.log | grep https)"
