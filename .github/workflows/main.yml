@@ -1,0 +1,52 @@
+
+name: 转下文件
+
+on:
+  repository_dispatch:
+
+#编辑任意指定文件触发开始编译(去掉下面5个#开启,最下面一行是指定修改什么文件就触发编译,我现在是修改diy.config文件触发)
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - 'diy.config'
+
+
+#release发布触发开始编译(只是一个触发条件,不会发布的,又麻烦,没卵用,不用研究)
+#  release:
+#    types: published
+
+
+#定时触发开始编译(开启定时编译请先关闭SSH,要不然SSH没人管,会卡SSH编译失败)
+#   schedule:
+#     - cron: 0 8 */5 * *
+
+
+#点☆Star触发开始编译
+  watch:
+     types: started
+
+
+env:
+  REPO_URL: http://releases.ubuntu.com/18.04/ubuntu-18.04.5-live-server-amd64.iso
+
+jobs:
+  build:
+    name: 准备系统
+    runs-on: ubuntu-18.04
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+    - name: 准备结束
+      uses: actions/checkout@main
+
+    - name: 开始下载
+      run: |
+        wget $REPO_URL
+        sudo timedatectl set-timezone "$TZ"
+   
+    - name: 上传固件到奶牛快传
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ${{ github.workspace }}/ubuntu-18.04.5-live-server-amd64.iso 2>&1 | tee cowtransfer.log
+        echo "::warning file=↓↓无需注册直接下载↓↓奶牛快传下载地址↓↓::$(cat cowtransfer.log | grep https)"
