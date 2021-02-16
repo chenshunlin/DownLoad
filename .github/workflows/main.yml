@@ -41,9 +41,7 @@ jobs:
       uses: actions/checkout@main
 
     - name: 开始下载
-      run: |
-        wget $REPO_URL
-        sudo timedatectl set-timezone "$TZ"
+      run: wget $REPO_URL
    
     - name: 上传固件到奶牛快传
       run: |
