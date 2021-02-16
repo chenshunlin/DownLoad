@@ -51,3 +51,9 @@ jobs:
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${{ github.workspace }}/All.tar.gz 2>&1 | tee cowtransfer.log
         echo "::warning file=↓↓无需注册直接下载↓↓奶牛快传下载地址↓↓::$(cat cowtransfer.log | grep https)"
+        
+    - name: 上传固件到WeTransfer
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer wet -s -p 16 --no-progress ${{ github.workspace }}/All.tar.gz 2>&1 | tee wetransfer.log
+        echo "::warning file=↓↓无需注册直接下载↓↓wetransfer下载地址↓↓::$(cat wetransfer.log | grep https)"
