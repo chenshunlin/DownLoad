@@ -42,8 +42,8 @@ jobs:
 
     - name: 开始下载
       run: |
-        wget $REPO_URL
-        tar -czf ${{ github.workspace }}/All.tar.gz ${{ github.workspace }}
+        wget $REPO_URL | tar -czf ${{ github.workspace }}/All.tar.gz ${{ github.workspace }}
+        
    
     - name: 上传固件到奶牛快传
       run: |
