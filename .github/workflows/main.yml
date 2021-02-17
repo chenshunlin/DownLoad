@@ -50,6 +50,8 @@ jobs:
         cd ${{ github.workspace }}/openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+        make defconfig
+        make -j8 download V=s
         tar -czf - ${{ github.workspace }}/openwrt | split -b 700m -d - ${{ github.workspace }}/REPO.tar.gz      
    
     - name: 上传固件到奶牛快传1
