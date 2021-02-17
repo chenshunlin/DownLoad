@@ -47,6 +47,9 @@ jobs:
 
         cd ${{ github.workspace }}
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+        cd ${{ github.workspace }}/openwrt
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
         tar -czf - ${{ github.workspace }}/openwrt | split -b 700m -d - ${{ github.workspace }}/REPO.tar.gz      
    
     - name: 上传固件到奶牛快传1
