@@ -52,21 +52,21 @@ jobs:
         ./scripts/feeds install -a
         make defconfig
         make -j8 download V=s
-        tar -czf ${{ github.workspace }}/All.tar.gz ${{ github.workspace }}/openwrt
+        tar -czf ${{ github.workspace }}/All-20211055.tar.gz ${{ github.workspace }}/openwrt
    
    
     - name: 上传.config配置文件在github空间    
       uses: actions/upload-artifact@main
       with:
         name: buildinfo
-        path: ${{ github.workspace }}/All.tar.gz
+        path: ${{ github.workspace }}/All-20211055.tar.gz
         #文件保留2天后自动删除
         retention-days: 1
         
     - name: 上传固件到奶牛快传1
       run: |
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress ${{ github.workspace }}/All.tar.gz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ${{ github.workspace }}/All-20211055.tar.gz 2>&1 | tee cowtransfer.log
         echo "::warning file=↓↓无需注册直接下载↓↓奶牛快传下载地址↓↓::$(cat cowtransfer.log | grep https)"
         
         
