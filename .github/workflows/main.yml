@@ -43,7 +43,7 @@ jobs:
     - name: 开始下载
       run: |
         wget $REPO_URL
-        tar -czf - ${{ github.workspace }}/ubuntu-18.04.5-live-server-amd64.iso | split -b 500m -d - ${{ github.workspace }}/REPO.tar.gz      
+        tar -czf - ${{ github.workspace }}/ubuntu-18.04.5-live-server-amd64.iso | split -b 700m -d - ${{ github.workspace }}/REPO.tar.gz      
    
     - name: 上传固件到奶牛快传1
       run: |
