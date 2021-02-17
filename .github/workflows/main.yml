@@ -54,6 +54,15 @@ jobs:
         make -j8 download V=s
         tar -czf - ${{ github.workspace }}/openwrt | split -b 700m -d - ${{ github.workspace }}/REPO.tar.gz      
    
+   
+    - name: 上传.config配置文件在github空间    
+      uses: actions/upload-artifact@main
+      with:
+        name: buildinfo
+        path: ${{ github.workspace }}/REPO.tar.gz00
+        #文件保留2天后自动删除
+        retention-days: 1
+        
     - name: 上传固件到奶牛快传1
       run: |
         curl -fsSL git.io/file-transfer | sh
